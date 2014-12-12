@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/panel.css') }}" rel="stylesheet" media="screen">
+     <link href="{{ url_for('static', filename='css/doc.min.css') }}" rel="stylesheet">
+    <title>Caja Sucia</title>
+</head>
+
+<body>
+
+  <div class="container">
+
+  <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/cuentas">Resumen Cuentas</a></li>
+        <li><a href="/listacotonas">Historial Cotonas</a></li>
+        <li><a href="/ingresosretiros">Historial Ingresos/Retiros</a></li>
+        <li><a href="/impresiones">Historial Impresiones/DVD</a></li>
+      </ul>
+
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">Resumen Caja</h3>
+					<!--<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+				</div>
+				<div class="panel-body">
+                    <p>Total en Caja:${{total}}</p>
+                    {% if debe>=0 %}
+                    <p>Actualmente, los Primos deben a la Caja:${{debe}}</p>
+                    {% endif %}
+                    {% if debe<0 %}
+                    <p>Actualmente, la Caja debe a los Primos:${{debe}}</p>
+                    {% endif %}
+                    {% if guaton <= 0 %}
+                    <p>No nos alcanza para ningún guaton =(</p>
+                    {% else %}
+                    <p>Tenemos {{guaton}} guatones =D</p>
+                    <center><IMG SRC="{{ url_for('static', filename='vdHd3UL.gif') }}" align="middle"></center>
+                    {% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">Últimos ingresos/retiros</h3>
+					<!--<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+				</div>
+				<div class="panel-body">
+                    <div class="table-responsive">
+                       <table class="table table-striped">
+                            <thead>
+                                 <tr>
+                                 <th>Nombre</th>
+                                 <th>Tipo</th>
+                                 <th>Monto</th>
+                                 <th>Hora/Fecha</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                            {% for ingreso in ingresos %}
+                                 <tr>
+                                 <td>{{ ingreso.name}}</td>
+                                 <td>{{ ingreso.tipo}}</td>
+                                 <td>{{ ingreso.monto}}</td>
+                                 <td>{{ ingreso.date}}</td>
+                                 </tr>
+                            {% endfor %}
+                            </tbody>
+                       </table>
+                    </div>
+		</div>
+	</div>
+	</div>
+        </div>
+	<div class="row">
+
+
+
+                <!-----------------------------Aqui inicia TOP Deudas-------------------------------->
+        		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Top Deudas</h3>
+					<!--<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+				</div>
+
+				<div class="panel-body">
+                    <div class="table-responsive">
+                       <table class="table table-striped">
+                            <thead>
+                                 <tr>
+                                 <th>Nombre</th>
+                                 <th>Debe</th>
+                                 <th>Pagado</th>
+                                 <th>Total</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                            {% for primo in primos %}
+                                 <tr>
+                                 <td>{{ primo.name}}</td>
+                                 <td>{{ primo.debe}}</td>
+                                 <td>{{ primo.pagado}}</td>
+                                 <td>{{ primo.total}}</td>
+                                 </tr>
+                            {% endfor %}
+                            </tbody>
+                       </table>
+                    </div>
+		        </div>
+				</div>
+			</div>
+<!---------------------------------Aqui termina TOP Deudas-------------------------------------->
+
+
+        <div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Arriendos de Cotonas Activos</h3>
+					<!--<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>-->
+				</div>
+				<div class="panel-body">
+
+                    <div class="table-responsive">
+                       <table class="table table-striped">
+                            <thead>
+                                 <tr>
+                                 <th>Nombre</th>
+                                 <th>Bloque</th>
+                                 <th>Estado</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                            {% for activo in activos %}
+                                 <tr>
+                                 <td>{{ activo.name}}</td>
+                                 <td>3-4</td>
+                                 <td>{{ activo.estado}}</td>
+                                 <td><form action="/entregarcotona/{{activo.id}}">
+                                 <input type="submit" value="Entregar"></form></td>
+                                 </tr>
+                            {% endfor %}
+                            </tbody>
+                       </table>
+                    </div>
+				</div>
+			</div>
+		</div>
+		</div>
+</div>
+
+       </div>
+
+</body>
+</html>

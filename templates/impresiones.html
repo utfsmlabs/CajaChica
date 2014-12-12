@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/navbar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
+    <title>Impresiones/DVD</title>
+</head>
+
+<body>
+  <div class="container">
+  <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Home</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/cuentas">Resumen Cuentas</a></li>
+        <li><a href="/listacotonas">Historial Cotonas</a></li>
+        <li><a href="/ingresosretiros">Historial Ingresos/Retiros</a></li>
+        <li class="active"><a href="/impresiones">Historial Impresiones/DVD<span class="sr-only">(current)</span></a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+        <h1>Historial de Impresiones y compras de DVD</h1>
+        <form action="/nuevaimpresion">
+        <input type="submit" value="Nuevo Impresion/DVD">
+        </form>
+
+<ul class="pagination">
+  <li><a href="#">&laquo;</a></li>
+  <li><a href="/impresiones/1">1</a></li>
+  <li><a href="/impresiones/2">2</a></li>
+  <li><a href="/impresiones/3">3</a></li>
+  <li><a href="/impresiones/4">4</a></li>
+  <li><a href="/impresiones/5">5</a></li>
+  <li><a href="#">&raquo;</a></li>
+</ul>
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>Tipo Impresion</th>
+                  <th>Numero Paginas/Unidades</th>
+                  <th>Fecha/Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for impresion in impresiones[::-1]: %}
+            <tr>
+                <td>{{ impresion.tipo_impresion }}</td>
+                <td>{{ impresion.numero_paginas }}</td>
+                <td>{{ impresion.date }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        </div>
+</body>
+
+</html>
+
